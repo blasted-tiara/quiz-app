@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info:
+  title: Voting App API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/
+  - url: http://localhost:8080/
+paths:
+  /authentication/login:
+    post:
+      summary: Attempt to log in as admin
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginData'
+      responses:
+        '200':
+          description: 'Login successful'
+        '401':
+          description: 'Login failed'
+  /authentication/logout:
+    post:
+      summary: Log out
+      responses:
+        '200':
+          description: Successfully logged out
+components:
+  schemas:
+    LoginData:
+      type: object
+      properties:
+        username:
+          type: string
+          example: admin
+        password:
+          type: string
+          example: password
