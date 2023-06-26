@@ -2,7 +2,6 @@ package ba.fet.rwa.projections;
 
 import ba.fet.rwa.models.User;
 import ba.fet.rwa.models.User.Role;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -39,17 +38,14 @@ public class UserProjection {
         return user;
     }
 
-    @JsonProperty("id")
     public Long getId() {
         return id;
     }
 
-    @JsonProperty("username")
     public String getUsername() {
         return username;
     }
 
-    @JsonProperty("roles")
     public List<Role> getRoles() {
         return roles;
     }

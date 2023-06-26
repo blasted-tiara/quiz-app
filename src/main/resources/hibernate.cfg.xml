@@ -18,6 +18,9 @@
     <property name="hibernate.format_sql">true</property>
 
     <mapping class="ba.fet.rwa.models.User" />
+    <mapping class="ba.fet.rwa.models.Quiz" />
+    <mapping class="ba.fet.rwa.models.Question" />
+    <mapping class="ba.fet.rwa.models.Answer" />
 
   </session-factory>
 </hibernate-configuration>
