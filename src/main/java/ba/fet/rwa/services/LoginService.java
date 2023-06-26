@@ -5,7 +5,6 @@ import ba.fet.rwa.models.User;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
