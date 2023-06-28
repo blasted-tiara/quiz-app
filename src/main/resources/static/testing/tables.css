@@ -1,0 +1,84 @@
+th,
+td {
+    border: 0;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+.thumbnail-column {
+    width: 120px;
+}
+
+.administration-list {
+    width: 35%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.entity-table {
+    border-spacing: 0;
+    width: 100%;
+}
+
+.entity-table td img {
+    max-width: 120px;
+    max-height: 90px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.action-button {
+    padding: 10px;
+    margin-left: 7px;
+    margin-right: 7px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 25px;
+}
+
+.pagination button:hover {
+    background-color: #3c8e3f;
+}
+
+.pagination button:active {
+    background-color: #3c8e3f;
+}
+
+.edit i,
+.delete i {
+    color: #444;
+    font-size: 1.2em;
+}

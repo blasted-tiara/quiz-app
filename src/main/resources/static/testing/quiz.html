@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="modals.css">
+    <link rel="stylesheet" href="tables.css">
+    <link rel="stylesheet" href="general.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+    <script src="table.js"></script>
+    <script src="Pager.js"></script>
+    <script src="modals.js"></script>
+    <script src="crud.js"></script>
+    <script src="quizFormController.js"></script>
+    <script src="quizTable.js"></script>
+
+    <title>Users administration</title>
+</head>
+
+<body>
+
+<header>
+    <h2 class="regular-title">User Administration</h2>
+</header>
+
+<section class="administration-list">
+    <button id="add-quiz" class="symbol-button" onclick="showModal('create-quiz-modal')"><i
+            class="fas fa-plus-circle symbol"></i></button>
+
+    <table id="all-quizzes-table" class="entity-table">
+        <tr>
+            <th>Title</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
+    </table>
+    <div class="pagination">
+        <div id="pageNumbers"></div>
+    </div>
+
+    <div class="modal" id="create-quiz-modal" data-animation="slideInOutLeft">
+        <div class="modal-dialog">
+            <header class="modal-header">
+                Create a New Quiz
+            </header>
+            <section class="modal-content">
+                <section class="quiz-form">
+                    <form id="create-quiz-form" autocomplete="off">
+                        <label class="mdc-text-field mdc-text-field--outlined">
+                                <span class="mdc-notched-outline">
+                                    <span class="mdc-notched-outline__leading"></span>
+                                    <span class="mdc-notched-outline__notch">
+                                        <span class="mdc-floating-label" id="my-label-id">Title</span>
+                                    </span>
+                                    <span class="mdc-notched-outline__trailing"></span>
+                                </span>
+                            <input id="title-create" type="text" class="mdc-text-field__input"
+                                   aria-labelledby="my-label-id" required>
+                        </label>
+                        <br>
+                        <label class="mdc-text-field mdc-text-field--outlined">
+                                <span class="mdc-notched-outline">
+                                    <span class="mdc-notched-outline__leading"></span>
+                                    <span class="mdc-notched-outline__notch">
+                                        <span class="mdc-floating-label" id="my-label-id">Description</span>
+                                    </span>
+                                    <span class="mdc-notched-outline__trailing"></span>
+                                </span>
+                            <input id="description-create" type="text" class="mdc-text-field__input"
+                                   aria-labelledby="my-label-id" required>
+                        </label>
+                        <label for="image-picker">
+                            <img id="image-preview" src="https://dummyimage.com/200x200/ffffff/000000.png&text=Click+here+to+upload+image" alt="your image" />
+                        </label>
+                        <input id="image-picker" type="file" accept="image/*" />
+                    </form>
+                </section>
+            </section>
+            <footer class="modal-footer">
+                <button type="submit" form="create-quiz-form" class="mdc-button mdc-button--raised">
+                    <span class="mdc-button__label">Create</span>
+                </button>
+            </footer>
+        </div>
+    </div>
+    <div class="modal" id="edit-quiz-modal" data-animation="slideInOutLeft">
+        <div class="modal-dialog">
+            <header class="modal-header">
+                Edit User
+            </header>
+            <section class="modal-content">
+                <section class="user-form">
+                    <form id="edit-quiz-form">
+                        <label id="edit-username-component" class="mdc-text-field mdc-text-field--outlined">
+                                <span class="mdc-notched-outline">
+                                    <span class="mdc-notched-outline__leading"></span>
+                                    <span class="mdc-notched-outline__notch">
+                                        <span class="mdc-floating-label" id="my-label-id">Username</span>
+                                    </span>
+                                    <span class="mdc-notched-outline__trailing"></span>
+                                </span>
+                            <input id="edit-username-input" type="text" class="mdc-text-field__input"
+                                   aria-labelledby="my-label-id" required>
+                        </label>
+                        <br>
+                        <label class="mdc-text-field mdc-text-field--outlined">
+                                <span class="mdc-notched-outline">
+                                    <span class="mdc-notched-outline__leading"></span>
+                                    <span class="mdc-notched-outline__notch">
+                                        <span class="mdc-floating-label" id="my-label-id">New Password</span>
+                                    </span>
+                                    <span class="mdc-notched-outline__trailing"></span>
+                                </span>
+                            <input id="edit-password-input" type="password" class="mdc-text-field__input"
+                                   aria-labelledby="my-label-id">
+                        </label>
+                        <br>
+                    </form>
+                </section>
+            </section>
+            <footer class="modal-footer">
+                <button type="submit" form="edit-quiz-form" class="mdc-button mdc-button--raised">
+                    <span class="mdc-button__label">Update</span>
+                </button>
+            </footer>
+        </div>
+    </div>
+    <div class="modal" id="delete-user-modal" data-animation="slideInOutLeft">
+        <div class="modal-dialog">
+            <header class="modal-header">
+                Delete Quiz
+            </header>
+            <section class="modal-content">
+                Are you sure you want to permanently delete this user?
+            </section>
+            <footer class="modal-footer">
+                <button class="mdc-button mdc-button--raised">
+                    <span class="mdc-button__label" onclick="deleteQuizYes()">Yes</span>
+                </button>
+                <button class="mdc-button mdc-button--raised">
+                    <span class="mdc-button__label" onclick="deleteQuizNo()">No</span>
+                </button>
+            </footer>
+        </div>
+    </div>
+</section>
+<script>
+        let pager = new Pager('quiz', 'all-quizzes-table', createQuizzesTableRow);
+        pager.init();
+
+        addCloseModalListeners();
+
+        mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-button'));
+
+        const textFields = document.querySelectorAll('.mdc-text-field');
+        textFields.forEach((textField) => {
+            mdc.textField.MDCTextField.attachTo(textField);
+        });
+
+        const createQuizForm = document.getElementById('create-quiz-form');
+        createQuizForm.addEventListener('submit', (e) => {
+            createEntity(e, getFormData, quizEndpoint, "create-quiz-modal");
+        })
+
+        const editQuizForm = document.getElementById('edit-quiz-form');
+        editQuizForm.addEventListener('submit', (e) => {
+            updateQuiz(e, getFormData);
+        })
+
+    </script>
+</body>
+
+</html>
