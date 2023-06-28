@@ -10,7 +10,6 @@ public class AnswerProjection {
     private Long id;
     private String text;
     private boolean correct;
-    private int order;
 
     public static AnswerProjection toProjection(Answer model) {
         AnswerProjection projection = new AnswerProjection();
@@ -18,7 +17,6 @@ public class AnswerProjection {
         projection.setId(model.getId());
         projection.setText(model.getText());
         projection.setCorrect(model.isCorrect());
-        projection.setOrder(model.getOrder());
 
         return projection;
     }
@@ -32,7 +30,6 @@ public class AnswerProjection {
 
         model.setText(this.text);
         model.setCorrect(this.correct);
-        model.setOrder(this.order);
 
         return model;
     }
@@ -53,10 +50,6 @@ public class AnswerProjection {
         return correct;
     }
 
-    public int getOrder() {
-        return order;
-    }
-
     @JsonProperty("id")
     public void setId(Long id) {
         this.id = id;
@@ -70,10 +63,5 @@ public class AnswerProjection {
     @JsonProperty("correct")
     public void setCorrect(boolean correct) {
         this.correct = correct;
-    }
-
-    @JsonProperty("order")
-    public void setOrder(int order) {
-        this.order = order;
     }
 }

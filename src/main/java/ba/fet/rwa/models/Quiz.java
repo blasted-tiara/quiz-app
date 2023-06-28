@@ -16,7 +16,7 @@ public class Quiz {
     private String description;
     private String thumbnail;
 
-    @OneToMany(mappedBy = "quiz")
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Question> questions = new ArrayList<>();
 
 

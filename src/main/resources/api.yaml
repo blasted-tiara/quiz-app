@@ -6,6 +6,326 @@ servers:
   - url: http://localhost:8080/api/
   - url: http://localhost:8080/
 paths:
+  /quiz:
+    post:
+      summary: Create a new quiz
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Quiz'
+      responses:
+        '201':
+          description: Quiz created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quiz'
+  /quiz/{quizId}:
+    get:
+      summary: Get a specific quiz by id
+      parameters:
+      - name: quizId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Returns a specific quiz
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quiz'
+  /quiz/paginated:
+    get:
+      summary: Get a paginated list of quizzes
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Returns a paginated list of quizzes
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: '#/components/schemas/Quiz'
+  /quiz/pagesCount:
+    get:
+      summary: Get total number of pages
+      responses:
+        '200':
+          description: Total number of pages
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  numberOfPages:
+                    type: integer
+                    format: int64
+    put:
+      summary: Update quiz
+      parameters:
+      - name: quizId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quiz'
+      responses:
+        '200':
+          description: Quiz successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quiz'
+        '400':
+          description: Invalid quiz supplied
+        '404':
+          description: Quiz not found
+    delete:
+      summary: Delete quiz
+      parameters:
+      - name: quizId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Quiz successfully deleted
+        '404':
+          description: Quiz not found
+  /quiz/{quizId}/questions:
+    post:
+      summary: Create a new question
+      parameters:
+      - name: quizId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+      responses:
+        '201':
+          description: Question created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+  /quiz/{quizId}/questions/{questionId}:
+    get:
+      summary: Get a specific question by id
+      parameters:
+      - name: quizId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: questionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Returns a specific question
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+    put:
+      summary: Update question
+      parameters:
+      - name: quizId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: questionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+      responses:
+        '200':
+          description: Question successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+        '400':
+          description: Invalid question supplied
+        '404':
+          description: Question not found
+    delete:
+      summary: Delete question
+      parameters:
+      - name: quizId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: questionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Question successfully deleted
+        '404':
+          description: Question not found
+  /quiz/{quizId}/questions/{questionId}/answers:
+    post:
+      summary: Create a new answer
+      parameters:
+      - name: quizId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: questionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Answer'
+      responses:
+        '201':
+          description: Answer created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer'
+  /quiz/{quizId}/questions/{questionId}/answers/{answerId}:
+    get:
+      summary: Get a specific answer by id
+      parameters:
+      - name: quizId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: questionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: answerId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Returns a specific answer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer'
+    put:
+      summary: Update answer
+      parameters:
+      - name: quizId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: questionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: answerId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Answer'
+      responses:
+        '200':
+          description: Answer successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer'
+        '400':
+          description: Invalid answer supplied
+        '404':
+          description: Answer not found
+    delete:
+      summary: Delete answer
+      parameters:
+      - name: quizId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: questionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: answerId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Answer successfully deleted
+        '404':
+          description: Answer not found
   /authentication/login:
     post:
       summary: Attempt to log in as admin
@@ -51,6 +371,10 @@ components:
         description:
           type: string
           example: 'This is a quiz'
+        questionOrder:
+          type: integer
+          format: int64
+          example: 1
         thumbnail:
           type: string
           example: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'
@@ -93,7 +417,3 @@ components:
           correct:
             type: boolean
             example: true
-          order:
-            type: integer
-            format: int64
-            example: 1

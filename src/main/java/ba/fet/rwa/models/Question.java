@@ -18,11 +18,13 @@ public class Question {
 
     private int points;
 
+    private int questionOrder;
+
     @ManyToOne
     @JoinColumn(name = "quiz_id", nullable = false)
     private Quiz quiz;
 
-    @OneToOne(mappedBy = "question")
+    @OneToMany(mappedBy = "question")
     private List<Answer> answers;
 
     public Long getId() {
@@ -39,6 +41,10 @@ public class Question {
 
     public int getPoints() {
         return points;
+    }
+
+    public int getQuestionOrder() {
+        return questionOrder;
     }
 
     public Quiz getQuiz() {
@@ -67,6 +73,11 @@ public class Question {
     @JsonProperty("points")
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    @JsonProperty("questionOrder")
+    public void setQuestionOrder(int questionOrder) {
+        this.questionOrder = questionOrder;
     }
 
     public void setQuiz(Quiz quiz) {

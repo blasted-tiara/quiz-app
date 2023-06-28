@@ -9,6 +9,8 @@ public class QuestionProjection {
     private String text;
     private int time;
     private int points;
+
+    private int questionOrder;
     private List<AnswerProjection> answers;
 
     public static QuestionProjection toProjection(Question model) {
@@ -18,6 +20,7 @@ public class QuestionProjection {
         projection.setText(model.getText());
         projection.setTime(model.getTime());
         projection.setPoints(model.getPoints());
+        projection.setQuestionOrder(model.getQuestionOrder());
         projection.setAnswers(AnswerProjection.toProjection(model.getAnswers()));
 
         return projection;
@@ -33,6 +36,7 @@ public class QuestionProjection {
         model.setText(this.text);
         model.setTime(this.time);
         model.setPoints(this.points);
+        model.setQuestionOrder(this.questionOrder);
         model.setAnswers(AnswerProjection.toModel(this.answers));
 
         return model;
@@ -58,6 +62,10 @@ public class QuestionProjection {
         return points;
     }
 
+    public int getQuestionOrder() {
+        return questionOrder;
+    }
+
     public List<AnswerProjection> getAnswers() {
         return answers;
     }
@@ -76,6 +84,10 @@ public class QuestionProjection {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public void setQuestionOrder(int questionOrder) {
+        this.questionOrder = questionOrder;
     }
 
     public void setAnswers(List<AnswerProjection> answers) {

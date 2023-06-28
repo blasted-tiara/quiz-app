@@ -18,8 +18,6 @@ public class Answer {
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
-    private int order;
-
     public Long getId() {
         return id;
     }
@@ -34,10 +32,6 @@ public class Answer {
 
     public Question getQuestion() {
         return question;
-    }
-
-    public int getOrder() {
-        return order;
     }
 
     @JsonProperty("id")
@@ -57,10 +51,5 @@ public class Answer {
 
     public void setQuestion(Question question) {
         this.question = question;
-    }
-
-    @JsonProperty("order")
-    public void setOrder(int order) {
-        this.order = order;
     }
 }
