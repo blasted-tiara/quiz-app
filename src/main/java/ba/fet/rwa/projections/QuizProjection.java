@@ -8,7 +8,7 @@ public class QuizProjection {
     private Long id;
     private String title;
     private String description;
-    private String thumbnaiil;
+    private String thumbnail;
     private List<QuestionProjection> questions;
 
     public static QuizProjection toProjection(Quiz model) {
@@ -17,7 +17,7 @@ public class QuizProjection {
         projection.setId(model.getId());
         projection.setTitle(model.getTitle());
         projection.setDescription(model.getDescription());
-        projection.setThumbnaiil(model.getThumbnail());
+        projection.setThumbnail(model.getThumbnail());
         projection.setQuestions(QuestionProjection.toProjection(model.getQuestions()));
 
         return projection;
@@ -30,9 +30,10 @@ public class QuizProjection {
     public Quiz toModel() {
         Quiz model = new Quiz();
 
+        model.setId(this.id);
         model.setTitle(this.title);
         model.setDescription(this.description);
-        model.setThumbnail(this.thumbnaiil);
+        model.setThumbnail(this.thumbnail);
         model.setQuestions(QuestionProjection.toModel(this.questions));
 
         return model;
@@ -54,8 +55,8 @@ public class QuizProjection {
         return description;
     }
 
-    public String getThumbnaiil() {
-        return thumbnaiil;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
     public List<QuestionProjection> getQuestions() {
@@ -74,8 +75,8 @@ public class QuizProjection {
         this.description = description;
     }
 
-    public void setThumbnaiil(String thumbnaiil) {
-        this.thumbnaiil = thumbnaiil;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public void setQuestions(List<QuestionProjection> questions) {

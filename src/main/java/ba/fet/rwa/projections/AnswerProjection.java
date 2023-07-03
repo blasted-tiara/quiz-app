@@ -28,6 +28,7 @@ public class AnswerProjection {
     public Answer toModel() {
         Answer model = new Answer();
 
+        model.setId(this.id);
         model.setText(this.text);
         model.setCorrect(this.correct);
 

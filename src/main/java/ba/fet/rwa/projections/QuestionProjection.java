@@ -9,7 +9,6 @@ public class QuestionProjection {
     private String text;
     private int time;
     private int points;
-
     private int questionOrder;
     private List<AnswerProjection> answers;
 
@@ -33,6 +32,7 @@ public class QuestionProjection {
     public Question toModel() {
         Question model = new Question();
 
+        model.setId(this.id);
         model.setText(this.text);
         model.setTime(this.time);
         model.setPoints(this.points);

@@ -1,8 +1,10 @@
 package ba.fet.rwa.endpoints;
 
 import ba.fet.rwa.models.Quiz;
+import ba.fet.rwa.projections.QuizProjection;
 import ba.fet.rwa.services.PageService;
 import ba.fet.rwa.services.QuizService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import sun.jvm.hotspot.debugger.Page;
@@ -47,10 +49,17 @@ public class QuizApi {
             @PathParam("quizId") String id,
             @FormDataParam("thumbnailFile") InputStream thumbnailFile,
             @FormDataParam("thumbnailFile") FormDataContentDisposition thumbnailFileDetail,
-            @FormDataParam("title") String title,
-            @FormDataParam("description") String description
+            @FormDataParam("quiz") String quizString
     ) {
-        return quizService.updateQuiz(id, thumbnailFile, thumbnailFileDetail, title, description);
+        ObjectMapper mapper = new ObjectMapper();
+        QuizProjection quiz = null;
+        try {
+            quiz = mapper.readValue(quizString, QuizProjection.class);
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while parsing quiz").build();
+        }
+
+        return quizService.updateQuiz(id, thumbnailFile, thumbnailFileDetail, quiz);
     }
 
     @DELETE
