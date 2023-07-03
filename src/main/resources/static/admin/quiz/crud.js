@@ -35,60 +35,51 @@ function createEntity(e, getFormData, endpoint, modalId, contentType) {
         });
 }
 
-function updateUser(e) {
+function updateEntity(e, getFormData, endpoint, modalId, contentType) {
     e.preventDefault();
     
-    // Get the new values from the form
-    let newUsername = document.getElementById('edit-username-input').value;
-    let newPassword = document.getElementById('edit-password-input').value;
+    let formData = getFormData();
 
-    const inputs = document.getElementById('edit-role-selector').getElementsByTagName('input');
-    const newRoles = [...inputs].filter(e => e.checked).map(e => e.dataset.enumValue);
-    
-    const userId = document.getElementById('edit-user-form').dataset.userId;
+    const quizId = document.getElementById('edit-quiz-form').dataset.quizId;
 
-    let formData = {
-        username: newUsername,
-        roles: newRoles
+    let payload = {
+        method: 'PUT',
+        body: formData,
     }
-    
-    if (newPassword !== "") {
-        formData.password = newPassword; 
+
+    if (contentType) {
+        payload.headers = {
+            'Content-Type': contentType
+        }
     }
 
     // Send PUT request to update the user
-    fetch('http://localhost:8080/api/users/' + userId, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData) // Send the FormData object
-    })
+    fetch(endpoint + quizId, payload)
     .then(response => response.json())
     .then(data => {
-        console.log('Video successfully updated', data);
+        console.log('Quiz successfully updated', data);
         // Close the modal
-        closeModal('edit-user-modal');
+        closeModal(modalId);
         location.reload();
     })
     .catch(error => console.error('Error:', error));
 }
 
-function deleteUserYes() {
-    let userId = document.getElementById('delete-user-modal').dataset.userId;
-    deleteUser(userId)
+function deleteEntityYes(endpoint, modalId) {
+    let entityId = document.getElementById(modalId).dataset.entityId;
+    deleteEntity(endpoint, entityId)
     .then(() => {
-        closeModal('delete-user-modal');
+        closeModal(modalId);
     });
 }
 
-function deleteUserNo() {
-    closeModal('delete-user-modal');
+function deleteEntityNo(modalId) {
+    closeModal(modalId);
 }
 
 
-function deleteUser(userId) {
-    return fetch( + userId, {
+function deleteEntity(endpoint, entityId) {
+    return fetch(endpoint + entityId, {
         method: 'DELETE'
     })
     .then(data => {

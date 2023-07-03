@@ -3,6 +3,12 @@ const quizEndpoint = 'http://localhost:8080/api/quiz/';
 function createQuizzesTableRow(quiz) {
     let row = document.createElement('tr');
 
+    let thumbnailCell = document.createElement('td');
+    let img = document.createElement('img');
+    img.src = constructVideoThumbnailURL(quiz);
+    img.alt = "Video thumbnail";
+    thumbnailCell.appendChild(img);
+
     let titleCell = document.createElement('td');
     titleCell.textContent = quiz.title;
     
@@ -23,20 +29,20 @@ function createQuizzesTableRow(quiz) {
         // Fetch the current data for the quiz
         fetch(quizEndpoint + quiz.id)
             .then(response => response.json())
-            .then(user => {
-                /*
-                const mdcTextFieldElement = document.getElementById('edit-username-component');
-                const nativeInputField = mdcTextFieldElement.querySelector('input');
-                nativeInputField.value = user.username;
-                
-                const mdcTextField = mdc.textField.MDCTextField.attachTo(mdcTextFieldElement);
-                mdcTextField.foundation.setValue(user.username);
-                
-                document.getElementById('edit-user-form').dataset.userId = user.id;
+            .then(data => {
+                let quiz = new Quiz(data);
+                document.getElementById('edit-quiz-modal-content').appendChild(quiz.generateHTML());
+                quiz.attachListeners();
+
+                const editQuizForm = document.getElementById('edit-quiz-form');
+                editQuizForm.addEventListener('submit', (e) => {
+                    // const editedQuiz = getQuizData();
+                    updateEntity(e, getFormDataEdit, quizEndpoint, "edit-quiz-modal");
+                })
+
                 
                 // Show the modal
-                showModal('edit-user-modal');
-                */
+                showModal('edit-quiz-modal');
             });
     });
 
@@ -50,7 +56,7 @@ function createQuizzesTableRow(quiz) {
     deleteButton.addEventListener('click', function (e) {
         e.preventDefault();
         
-        document.getElementById('delete-user-modal').dataset.userId = quiz.id;
+        document.getElementById('delete-user-modal').dataset.entityId = quiz.id;
 
         showModal('delete-user-modal');
     })
@@ -58,9 +64,14 @@ function createQuizzesTableRow(quiz) {
     actionsCell.appendChild(editButton);
     actionsCell.appendChild(deleteButton);
 
+    row.appendChild(thumbnailCell);
     row.appendChild(titleCell);
     row.appendChild(descriptionCell);
     row.appendChild(actionsCell);
 
     return row;
+}
+
+function constructVideoThumbnailURL(video) {
+    return `http://localhost:8080/api/images/${video.thumbnail || "default.jpg"}`;
 }

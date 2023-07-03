@@ -32,6 +32,18 @@
     cursor: default;
 }
 
+.wide-modal-dialog {
+    position: relative;
+    width: 600px;
+    max-height: 80vh;
+    border-radius: 5px;
+    background: var(--white);
+    overflow: auto;
+    cursor: default;
+    
+}
+
+
 .modal-dialog>* {
     padding: 1rem;
 }

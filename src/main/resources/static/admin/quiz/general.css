@@ -32,7 +32,7 @@ button {
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.4s;
     border-radius: 25px;
 }
 
@@ -67,15 +67,16 @@ button:active {
   
 /* Image picker */
 
-#image-preview {
+.image-preview {
     max-width: 200px;
     max-height: 200px;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 40px;
 }
 
-#image-picker {
+.image-picker {
     display: none;
 }
 
