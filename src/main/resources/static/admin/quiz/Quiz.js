@@ -18,7 +18,7 @@ class Quiz {
         // Create the form element
         const form = document.createElement('form');
         form.setAttribute('id', 'edit-quiz-form');
-        form.dataset.quizId = this.id;
+        form.dataset.entityId = this.id;
 
         // Create the first pane div
         const paneDiv = document.createElement('div');

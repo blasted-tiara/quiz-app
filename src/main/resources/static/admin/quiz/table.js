@@ -102,12 +102,3 @@ function createAdminVideoTableRow(video, index) {
 function constructVideoThumbnailURL(video) {
     return video.thumbnailURL ? `http://localhost:8080/api/images/${video.thumbnailURL}` : `https://img.youtube.com/vi/${video.youtubeId}/3.jpg`;
 }
-
-function emptyTable(tableId) {
-    let table = document.getElementById(tableId);
-    let rows = table.getElementsByTagName('tr');
-
-    for (let i = rows.length - 1; i > 0; i--) {
-        table.deleteRow(i);
-    }
-}

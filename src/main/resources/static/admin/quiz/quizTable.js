@@ -36,10 +36,8 @@ function createQuizzesTableRow(quiz) {
 
                 const editQuizForm = document.getElementById('edit-quiz-form');
                 editQuizForm.addEventListener('submit', (e) => {
-                    // const editedQuiz = getQuizData();
-                    updateEntity(e, getFormDataEdit, quizEndpoint, "edit-quiz-modal");
+                    updateEntity(e, getFormDataEdit, quizEndpoint, "edit-quiz-modal", "edit-quiz-form");
                 })
-
                 
                 // Show the modal
                 showModal('edit-quiz-modal');

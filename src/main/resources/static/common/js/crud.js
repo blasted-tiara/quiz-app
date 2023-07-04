@@ -35,12 +35,12 @@ function createEntity(e, getFormData, endpoint, modalId, contentType) {
         });
 }
 
-function updateEntity(e, getFormData, endpoint, modalId, contentType) {
+function updateEntity(e, getFormData, endpoint, modalId, formId, contentType) {
     e.preventDefault();
     
     let formData = getFormData();
 
-    const quizId = document.getElementById('edit-quiz-form').dataset.quizId;
+    const quizId = document.getElementById(formId).dataset.entityId;
 
     let payload = {
         method: 'PUT',

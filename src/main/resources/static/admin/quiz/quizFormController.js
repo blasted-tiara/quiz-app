@@ -37,7 +37,7 @@ function getQuizData() {
     // Get the input values from the HTML components
     const titleInput = document.getElementById('title-edit');
     const descriptionInput = document.getElementById('description-edit');
-    const quizId = parseInt(document.getElementById('edit-quiz-form').dataset.quizId);
+    const quizId = parseInt(document.getElementById('edit-quiz-form').dataset.entityId);
     const thumbnailUrl = document.getElementById('image-preview-edit').src;
     const thumnailUrlParts = thumbnailUrl.split('/');
     const thumbnail = thumnailUrlParts[thumnailUrlParts.length - 1];
