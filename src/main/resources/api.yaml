@@ -77,6 +77,32 @@ paths:
           description: Quiz successfully deleted
         '404':
           description: Quiz not found
+  /quiz/{id}/generatePin:
+    post:
+      summary: Generate a PIN for a quiz session
+      parameters:
+        - in: path
+          name: id
+          description: ID of the quiz
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pin:
+                    type: string
+                    example: ABC123
+        '404':
+          description: Quiz not found
+        '500':
+          description: Internal server error
   /quiz/paginated:
     get:
       summary: Get a paginated list of quizzes

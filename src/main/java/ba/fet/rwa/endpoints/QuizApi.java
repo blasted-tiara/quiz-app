@@ -3,6 +3,7 @@ package ba.fet.rwa.endpoints;
 import ba.fet.rwa.models.Quiz;
 import ba.fet.rwa.projections.QuizProjection;
 import ba.fet.rwa.services.PageService;
+import ba.fet.rwa.services.PinService;
 import ba.fet.rwa.services.QuizService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -21,6 +22,7 @@ import static ba.fet.rwa.services.QuizService.PAGE_SIZE;
 public class QuizApi {
     QuizService quizService = new QuizService();
     PageService pageService = new PageService();
+    PinService pinService = new PinService();
 
     @POST
     @Consumes({MediaType.MULTIPART_FORM_DATA})
@@ -81,5 +83,12 @@ public class QuizApi {
     @Produces({ MediaType.APPLICATION_JSON })
     public Response listPaginatedUsers(@NotNull @QueryParam("page") Integer page) {
         return quizService.getPaginatedQuizzes(page);
+    }
+
+    @POST
+    @Path("/{quizId}/generatePin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response generatePin(@PathParam("quizId") String quizId) {
+        return Response.ok(pinService.createPinForQuiz(Long.parseLong(quizId))).build();
     }
 }
