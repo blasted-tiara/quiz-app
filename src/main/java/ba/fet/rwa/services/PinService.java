@@ -1,15 +1,15 @@
 package ba.fet.rwa.services;
 
+import ba.fet.rwa.models.QuizSession;
+
 import java.security.SecureRandom;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Base64;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class PinService {
     private static final long SESSION_EXPIRATION_TIME =TimeUnit.HOURS.toMillis(1);
 
-    private static final Map<String, PinSession> pinSessions = new HashMap<>();
+    private static final Map<String, QuizSession> pinSessions = new HashMap<>();
 
     public String createPinForQuiz(Long quizId) {
         String pin = generatePin();
@@ -23,7 +23,7 @@ public class PinService {
         return pin;
     }
 
-    public static PinSession getSession(String pin) {
+    public static QuizSession getSession(String pin) {
         if (validPin(pin)) {
             return pinSessions.get(pin);
         } else {
@@ -36,7 +36,7 @@ public class PinService {
             return false;
         }
 
-        PinSession pinSession = pinSessions.get(pin);
+        QuizSession pinSession = pinSessions.get(pin);
         if (pinSession.isExpired()) {
             pinSessions.remove(pin);
             return false;
@@ -53,25 +53,8 @@ public class PinService {
     }
 
     private void createPinSession(Long quizId, String pin) {
-        PinSession pinSession = new PinSession(quizId, System.currentTimeMillis() + SESSION_EXPIRATION_TIME);
+        QuizSession pinSession = new QuizSession(quizId, System.currentTimeMillis() + SESSION_EXPIRATION_TIME);
         pinSessions.put(pin, pinSession);
     }
 
-    private static class PinSession {
-        private Long quizId;
-        private long expirationTime;
-
-        public PinSession(Long quizId, long expirationTime) {
-            this.quizId = quizId;
-            this.expirationTime = expirationTime;
-        }
-
-        public Long getQuizId() {
-            return quizId;
-        }
-
-        public boolean isExpired() {
-            return System.currentTimeMillis() > expirationTime;
-        }
-    }
 }

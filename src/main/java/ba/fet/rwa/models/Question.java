@@ -27,6 +27,15 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Answer> answers;
 
+    public Answer getCorrectAnswer() {
+        for (Answer answer : answers) {
+            if (answer.isCorrect()) {
+                return answer;
+            }
+        }
+        return null;
+    }
+
     public Long getId() {
         return id;
     }

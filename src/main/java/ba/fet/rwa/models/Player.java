@@ -1,32 +1,48 @@
 package ba.fet.rwa.models;
 
+import javax.websocket.Session;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Player {
-    private String id;
+    private Session session;
     private String name;
     private String surname;
-    private Map<Long, List<Long>> answers;
+    private Map<Long, Long> answers;
+    private int score = 0;
 
-    public Player(String id, String name, String surname) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
+    public Player(Session session) {
         answers = new HashMap<>();
+        this.session = session;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void incrementScore(int points) {
+        score += points;
+    }
+
+    public Long getAnswerToQuestion(Long questionId) {
+        return answers.get(questionId);
+    }
+
+    public void sendMessage(String message) {
+        try {
+            session.getBasicRemote().sendText(message);
+        } catch (Exception e) {
+            System.out.println("Error sending message to player: " + e.getMessage());
+        }
     }
 
     public Player() {
         answers = new HashMap<>();
     }
 
-    public void addAnswer(Long questionId, List<Long> answers) {
-        this.answers.put(questionId, answers);
-    }
-
-    public String getId() {
-        return id;
+    public void addAnswer(Long questionId, Long answer) {
+        this.answers.put(questionId, answer);
     }
 
     public String getName() {
@@ -35,10 +51,6 @@ public class Player {
 
     public String getSurname() {
         return surname;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public void setName(String name) {

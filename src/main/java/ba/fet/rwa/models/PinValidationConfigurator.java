@@ -12,14 +12,10 @@ public class PinValidationConfigurator extends ServerEndpointConfig.Configurator
     public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response) {
         String pin = request.getParameterMap().get("pin").get(0);
 
-        boolean isValidPin = validatePin(pin);
+        boolean isValidPin = PinService.validPin(pin);
 
         if (!isValidPin) {
             throw new SecurityException("Invalid PIN");
         }
-    }
-
-    private boolean validatePin(String pin) {
-        return PinService.validPin(pin);
     }
 }

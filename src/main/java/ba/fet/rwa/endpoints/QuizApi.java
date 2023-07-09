@@ -8,7 +8,6 @@ import ba.fet.rwa.services.QuizService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
-import sun.jvm.hotspot.debugger.Page;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -40,7 +39,7 @@ public class QuizApi {
     @Path("/{quizId}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getQuizById(@PathParam("quizId") String quizId) {
-        return quizService.getQuizById(quizId);
+        return quizService.getQuizResponseById(quizId);
     }
 
     @PUT

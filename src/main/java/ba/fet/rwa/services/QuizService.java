@@ -61,7 +61,7 @@ public class QuizService {
         return quiz;
     }
 
-    public Response getQuizById(String id) {
+    public Response getQuizResponseById(String id) {
         Transaction tx = null;
         Quiz quiz;
 
@@ -83,6 +83,25 @@ public class QuizService {
         }
 
         return Response.ok(QuizProjection.toProjection(quiz)).build();
+    }
+
+    public Quiz getQuizById(Long id) {
+        Transaction tx = null;
+        Quiz quiz;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            quiz = session.get(Quiz.class, id);
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+
+            e.printStackTrace();
+            return null;
+        }
+
+        return quiz;
     }
 
     public Response updateQuiz(String id, InputStream thumbnailFile, FormDataContentDisposition thumbnailFileDetail, QuizProjection projection) {
