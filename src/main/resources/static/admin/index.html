@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="admin-panel.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+    <script src="../login.js"></script>
+
+    <title>Admin Panel</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <h2 class="regular-title">Admin Panel</h2>
+        </div>
+        <button class="mdc-icon-button material-icons" id="logout-button">logout</button>
+    </header>
+    <main>
+        <div class="mdc-card admin-card" id="user-admin-card">
+            <div class="mdc-card__primary-action">
+                <div class="card-content">
+                    <i class="fas fa-users-cog fa-5x"></i>
+                    <h2>User Administration</h2>
+                </div>
+            </div>
+        </div>
+        <div class="mdc-card admin-card" id="video-admin-card">
+            <div class="mdc-card__primary-action">
+                <div class="card-content">
+                    <i class="fas fa-question fa-5x"></i>
+                    <h2>Quiz Administration</h2>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.getElementById('user-admin-card').addEventListener('click', () => {
+            window.location.href = '/admin/user/index.html'; // Change to your user admin page URL
+        });
+
+        document.getElementById('video-admin-card').addEventListener('click', () => {
+            window.location.href = '/admin/quiz/index.html'; // Change to your video admin page URL
+        });
+
+        document.getElementById('logout-button').addEventListener('click', (event) => logout(event) );
+    </script>
+</body>
+
+</html>
