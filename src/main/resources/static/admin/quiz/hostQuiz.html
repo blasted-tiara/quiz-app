@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../../common/css/general.css">
+    <link rel="stylesheet" href="hostQuiz.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+    <script src="hostQuiz.js"></script>
+
+    <title>Host Quiz</title>
+</head>
+
+<body>
+    <header>
+        <h2 class="regular-title">Host Quiz</h2>
+    </header>
+    <div id="get-pin-section" class="quiz-section">
+        <button id="get-quiz-pin-btn">Get Quiz Pin</button>
+    </div>
+    <div id="show-pin-section" class="quiz-section hidden">
+        <div class="pin-container">
+            <h2 class="pin-title">Quiz PIN:</h2>
+            <div class="pin-frame">
+                <div id="pin" class="pin-number"></div>
+            </div>
+            <p class="pin-description">Share the PIN with the players</p>
+            <section class="connected-players-section">
+                <div class="connected-players-container">
+                    <h2 class="connected-players-title">Connected Players</h2>
+                    <div id="number-of-players" class="connected-players-number">0</div>
+                </div>
+            </section>
+
+            <button id="start-quiz-btn">Start Quiz</button>
+        </div>
+
+        <!-- Show number of connected players -->
+    </div>
+    <div id="control-quiz-section" class="quiz-section hidden">
+        <!-- Show current question and answers -->
+
+        <!-- Show timer -->
+
+        <!-- Show quiz control buttons -->
+    </div>
+
+    <script>
+        document.getElementById('get-quiz-pin-btn').addEventListener('click', (event) => getQuizPin(event));
+    </script>
+</body>
+
+</html>
