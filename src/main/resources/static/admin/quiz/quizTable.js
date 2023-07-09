@@ -59,6 +59,23 @@ function createQuizzesTableRow(quiz) {
         showModal('delete-user-modal');
     })
 
+    let playButton = document.createElement("button");
+    playButton.className = "action-button";
+    playButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('play-quiz-modal').dataset.entityId = quiz.id;
+        showModal('play-quiz-modal');
+    });
+
+    let playIcon = document.createElement("i");
+    playIcon.className = "fas fa-play";
+
+    playButton.appendChild(playIcon);
+    playButton.addEventListener('click', function (e) {
+        e.preventDefault();
+    });
+
+    actionsCell.appendChild(playButton);
     actionsCell.appendChild(editButton);
     actionsCell.appendChild(deleteButton);
 

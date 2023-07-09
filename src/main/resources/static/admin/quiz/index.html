@@ -113,6 +113,25 @@
                 </footer>
             </div>
         </div>
+        <div class="modal" id="play-quiz-modal" data-animation="slideInOutLeft">
+            <div class="modal-dialog">
+                <header class="modal-header">
+                    Start Quiz
+                </header>
+                <section class="modal-content">
+                    Do you want to start the quiz?
+                </section>
+                <footer class="modal-footer">
+                    <button class="mdc-button mdc-button--raised">
+                        <span class="mdc-button__label" onclick="startQuiz()">Yes</span>
+                    </button>
+                    <button class="mdc-button mdc-button--raised">
+                        <span class="mdc-button__label" onclick="closeModal('play-quiz-modal')">No</span>
+                    </button>
+                </footer>
+
+            </div>
+        </div>
         <div class="modal" id="delete-user-modal" data-animation="slideInOutLeft">
             <div class="modal-dialog">
                 <header class="modal-header">
@@ -159,6 +178,12 @@
             console.log("Attached successfully");
             readURL(this, "#image-preview-edit");
         });
+        
+        function startQuiz() {
+            const quizId = document.getElementById("play-quiz-modal").dataset.entityId;
+            closeModal("play-quiz-modal");
+            window.location = "http://localhost:8080/admin/quiz/hostQuiz.html?quizId=" + quizId;
+        }
     </script>
 </body>
 
