@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Quiz PIN Entry</title>
+    <link rel="stylesheet" type="text/css" href="../login.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="content" class="content">
+        <section id="join-section" class="login-section">
+            <h2 class="regular-title">Enter Quiz PIN</h2>
+            <form id="pin-form" autocomplete="off">
+                <div class="form-group">
+                    <label for="pin-input">Quiz PIN:</label>
+                    <input type="text" id="pin-input" />
+                </div>
+                <button type="submit">Join Quiz</button>
+            </form>
+        </section>
+        <section id="waiting-host-section" style="display: none;">
+            <div id="waiting-message" class="waiting-message">
+                <span class="waiting-text">Waiting for the Host to start quiz...</span>
+          </div>
+        </section>
+        <section id="question-section" style="display: none">
+            <h2 id="question-title"></h2>
+            <div id="question-answers"></div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('pin-form').addEventListener('submit', (event) => submitPin(event));
+    </script>
+</body>
+
+</html>
