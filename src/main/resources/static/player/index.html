@@ -4,9 +4,12 @@
 <head>
     <title>Quiz PIN Entry</title>
     <link rel="stylesheet" type="text/css" href="../login.css">
+    <link rel="stylesheet" type="text/css" href="../common/css/play-quiz.css">
+    <link rel="stylesheet" type="text/css" href="../common/css/general.css">
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <script src="../common/js/messaging.js"></script>
+    <script src="../common/js/Quiz.js"></script>
 </head>
 
 <body>
@@ -43,7 +46,7 @@
                 <button type="submit">Start Quiz</button>
             </form>
         </section>
-        <section id="question-section" style="display: none">
+        <section id="question-section" class="quiz-section" style="display: none">
             <div class="question-card">
                 <div class="question-container">
                     <div class="question-text">
@@ -53,6 +56,9 @@
                 <div id="answers" class="answers-list">
                 </div>
                 <div id="timer"></div>
+                <div>
+                    <button id="answer-btn" class="answer-btn">Answer</button>
+                </div>
             </div>
         </section>
     </div>
@@ -61,6 +67,7 @@
     <script>
         document.getElementById('pin-form').addEventListener('submit', (event) => submitPin(event));
         document.getElementById('info-form').addEventListener('submit', (event) => submitUserInfo(event));
+        document.getElementById('answer-btn').addEventListener('click', (event) => submitAnswer(event));
     </script>
 </body>
 

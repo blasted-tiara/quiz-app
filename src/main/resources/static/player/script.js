@@ -13,13 +13,36 @@ function joinQuiz(pin) {
         showSection("info-form-section");
     }
 
-    wsConnection.onmessage = function (evt) {
+    wsConnection.onmessage = function (e) {
         const data = decodeMessage(e.data);
         const messageType = data[0];
         const message = data[1];
         
         switch (messageType) {
+            case FromServerMessage.question:
+                const parsedMessage = JSON.parse(message);
+                const question = new Question(parsedMessage);
 
+                document.getElementById('question-text').innerText = question.text;
+
+                const answers = [];
+                question.answers.forEach((answer) => {
+                    answers.push(`
+                        <li class="player-answer-item" onclick="selectAnswer(this)" data-id="${answer.id}">
+                            <div class="player-answer">
+                                <span class="player-answer-text">${answer.text}</span>
+                            </div>
+                        </li>
+                    `)
+                });
+
+                document.getElementById('answers').innerHTML = answers.join('');
+                
+                showSection("question-section");
+
+                break;
+            case FromServerMessage.timeUp:
+                break;
         }
     }
 
@@ -56,8 +79,30 @@ function submitUserInfo(e) {
     showSection("waiting-host-section");
 }
 
+function submitAnswer(e) {
+    e.preventDefault();
+
+    const selectedAnswer = document.querySelector(".player-answer-item.selected");
+    if (selectedAnswer) {
+        const answerId = selectedAnswer.dataset.id;
+        wsConnection.send(ToServerMessage.answer + ":" + answerId);
+    }
+}
+
+function selectAnswer(answer) {
+    // Remove "selected" class from all answer elements
+    const answers = document.getElementsByClassName("player-answer-item");
+    for (let i = 0; i < answers.length; i++) {
+      answers[i].classList.remove("selected");
+    }
+  
+    // Add "selected" class to the clicked answer element
+    answer.classList.add("selected");
+  }
+
 const ToServerMessage = {
     playerData: 'PLAYER_DATA',
+    answer: 'ANSWER',
 }
 
 const FromServerMessage = {
