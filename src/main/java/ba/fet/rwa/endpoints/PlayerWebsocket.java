@@ -37,6 +37,11 @@ public class PlayerWebsocket {
             case PLAYER_DATA:
                 setPlayerData(messageContent);
                 break;
+            case ANSWER:
+                Long answerId = Long.parseLong(messageContent);
+                Long questionId = quizSession.getCurrentQuestion().getId();
+                player.addAnswer(questionId, answerId);
+                break;
             default:
                 break;
         }
@@ -60,5 +65,6 @@ public class PlayerWebsocket {
 
     private enum MessageType {
         PLAYER_DATA,
+        ANSWER
     }
 }

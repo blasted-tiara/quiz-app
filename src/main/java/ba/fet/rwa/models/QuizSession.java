@@ -1,5 +1,6 @@
 package ba.fet.rwa.models;
 
+import ba.fet.rwa.projections.PlayerQuestionProjection;
 import ba.fet.rwa.projections.QuestionProjection;
 import ba.fet.rwa.services.QuizService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -142,18 +143,28 @@ public class QuizSession {
         return topPlayers;
     }
 
-    private Question getCurrentQuestion() {
+    public Question getCurrentQuestion() {
         return quiz.getQuestions().get(currentQuestionIndex);
     }
 
     public void broadcastCurrentQuestion() {
+        // Message question to owner
         String question = null;
         try {
             question = objectMapper.writeValueAsString(QuestionProjection.toProjection(quiz.getQuestions().get(currentQuestionIndex)));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        broadcastMessage(MessageType.QUESTION ,question);
+        messageOwner(MessageType.QUESTION, question);
+
+        // Message question to players. Exclude information about correct answer.
+        String questionWithoutCorrectAnswer = null;
+        try {
+            questionWithoutCorrectAnswer = objectMapper.writeValueAsString(PlayerQuestionProjection.toProjection(quiz.getQuestions().get(currentQuestionIndex)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        messagePlayers(MessageType.QUESTION, questionWithoutCorrectAnswer);
     }
 
     private void broadcastMessage(MessageType messageType, String message) {
