@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="../../common/css/general.css">
+    <link rel="stylesheet" href="../../common/css/modals.css">
     <link rel="stylesheet" href="hostQuiz.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -17,6 +18,10 @@
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
     <script src="hostQuiz.js"></script>
+    <script src="timer.js"></script>
+    <script src="Quiz.js"></script>
+    <script src="../../common/js/modals.js"></script>
+    <script src="../../common/js/messaging.js"></script>
 
     <title>Host Quiz</title>
 </head>
@@ -44,20 +49,78 @@
 
             <button id="start-quiz-btn">Start Quiz</button>
         </div>
-
-        <!-- Show number of connected players -->
     </div>
     <div id="control-quiz-section" class="quiz-section hidden">
         <!-- Show current question and answers -->
+        <div class="question-card">
+            <div class="question-container">
+                <div class="question-text">
+                    <h2 id="question-text" class="question-heading">Question Text Goes Here</h2>
+                </div>
+            </div>
+            <div id="answers" class="answers-list">
+            </div>
+            <div id="timer"></div>
+        </div>
+        <div class="control-quiz-container">
+            <div class="quiz-controls">
+                <button id="show-results-btn" class="results-button">Show Results</button>
+                <button id="next-question-btn" class="next-question-button">Next Question</button>
+            </div>
+        </div>
+        <div class="modal" id="top-10-players-modal" data-animation="slideInOutLeft">
+            <div class="wide-modal-dialog">
+                <header class="modal-header">
+                    Top 10 Players
+                </header>
+                <section id="top-10-players-modal-content" class="modal-content">
+                  <table class="player-table">
+                    <thead>
+                      <tr>
+                        <th>Player</th>
+                        <th>Score</th>
+                      </tr>
+                    </thead>
+                    <tbody id="current-results-table-body">
+                    </tbody>
+                  </table>
+                </section>
+                <footer class="modal-footer">
+                    <button id="close-edit-quiz-modal" class="close-button" onclick="closeModal('top-10-players-modal')">Close</button>
+                </footer>
+            </div>
+        </div>
+        <div class="modal" id="final-results-modal" data-animation="slideInOutLeft">
+            <div class="wide-modal-dialog">
+                <header class="modal-header">
+                    Quiz Results
+                </header>
+                <section id="final-results-modal-content" class="modal-content">
+                  <table class="player-table">
+                    <thead>
+                      <tr>
+                        <th>Player</th>
+                        <th>Score</th>
+                      </tr>
+                    </thead>
+                    <tbody id="final-results-table-body">
+                    </tbody>
+                  </table>
+                </section>
+                <footer class="modal-footer">
+                    <button id="close-edit-quiz-modal" class="close-button" onclick="closeModal('final-results-modal')">Close</button>
+                </footer>
+            </div>
+        </div>
 
-        <!-- Show timer -->
-
-        <!-- Show quiz control buttons -->
-    </div>
-
-    <script>
-        document.getElementById('get-quiz-pin-btn').addEventListener('click', (event) => getQuizPin(event));
-    </script>
+        <script>
+            document.getElementById('get-quiz-pin-btn').addEventListener('click', (event) => getQuizPin(event));
+            document.getElementById('start-quiz-btn').addEventListener('click', (event) => startQuiz(event));
+            document.getElementById('show-results-btn').addEventListener('click', (event) => showResultsModal(event));
+            document.getElementById('next-question-btn').addEventListener('click', (event) => nextQuestion(event));
+            
+            addCloseModalListeners();
+        </script>
 </body>
 
 </html>
