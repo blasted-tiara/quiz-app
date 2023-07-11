@@ -10,7 +10,7 @@ function joinQuiz(pin) {
     wsConnection = new WebSocket(`ws://localhost:8080/ws/quiz?pin=${pin}`);
     
     wsConnection.onopen = function () {
-        showSection("waiting-host-section");
+        showSection("info-form-section");
 
     }
 
@@ -36,4 +36,24 @@ function showSection(sectionId) {
         section.style.display = "none";
     });
     document.getElementById(sectionId).style.display = "block";
+}
+
+function getUserInfo() {
+    const name = document.getElementById("name-input").value;
+    const email = document.getElementById("surname-input").value;
+    return name + ":" + email;
+}
+
+function submitUserInfo(e) {
+    e.preventDefault();
+    const userInfo = getUserInfo();
+    wsConnection.send(encodeMessage(ToServerMessage.playerData, userInfo));
+    showSection("question-section");
+}
+
+const ToServerMessage = {
+    playerData: 'PLAYER_DATA',
+}
+
+const FromServerMessage = {
 }

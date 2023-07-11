@@ -5,6 +5,8 @@
     <title>Quiz PIN Entry</title>
     <link rel="stylesheet" type="text/css" href="../login.css">
     <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="../common/js/messaging.js"></script>
 </head>
 
 <body>
@@ -24,6 +26,19 @@
                 <span class="waiting-text">Waiting for the Host to start quiz...</span>
           </div>
         </section>
+        <section id="info-form-section" class="info-section" style="display: none">
+            <form id="info-form" autocomplete="off">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name-input" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="password">Surname:</label>
+                    <input type="text" id="surname-input" name="surname">
+                </div>
+                <button type="submit">Start Quiz</button>
+            </form>
+        </section>
         <section id="question-section" style="display: none">
             <h2 id="question-title"></h2>
             <div id="question-answers"></div>
@@ -33,6 +48,7 @@
     <script src="script.js"></script>
     <script>
         document.getElementById('pin-form').addEventListener('submit', (event) => submitPin(event));
+        document.getElementById('info-form').addEventListener('submit', (event) => submitUserInfo(event));
     </script>
 </body>
 
