@@ -22,9 +22,13 @@
             </form>
         </section>
         <section id="waiting-host-section" style="display: none;">
-            <div id="waiting-message" class="waiting-message">
-                <span class="waiting-text">Waiting for the Host to start quiz...</span>
-          </div>
+            <div class="waiting-container">
+                <div class="waiting-message">
+                    <p>Waiting for the host to start quiz...</p>
+                </div>
+                <div class="buffering-animation"></div>
+            </div>
+
         </section>
         <section id="info-form-section" class="info-section" style="display: none">
             <form id="info-form" autocomplete="off">
@@ -40,8 +44,16 @@
             </form>
         </section>
         <section id="question-section" style="display: none">
-            <h2 id="question-title"></h2>
-            <div id="question-answers"></div>
+            <div class="question-card">
+                <div class="question-container">
+                    <div class="question-text">
+                        <h2 id="question-text" class="question-heading">Question Text Goes Here</h2>
+                    </div>
+                </div>
+                <div id="answers" class="answers-list">
+                </div>
+                <div id="timer"></div>
+            </div>
         </section>
     </div>
 

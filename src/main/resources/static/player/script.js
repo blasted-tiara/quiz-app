@@ -11,11 +11,16 @@ function joinQuiz(pin) {
     
     wsConnection.onopen = function () {
         showSection("info-form-section");
-
     }
 
     wsConnection.onmessage = function (evt) {
-        console.log("Message is received: " + evt.data);
+        const data = decodeMessage(e.data);
+        const messageType = data[0];
+        const message = data[1];
+        
+        switch (messageType) {
+
+        }
     }
 
     wsConnection.onclose = function () {
@@ -48,7 +53,7 @@ function submitUserInfo(e) {
     e.preventDefault();
     const userInfo = getUserInfo();
     wsConnection.send(encodeMessage(ToServerMessage.playerData, userInfo));
-    showSection("question-section");
+    showSection("waiting-host-section");
 }
 
 const ToServerMessage = {
@@ -56,4 +61,6 @@ const ToServerMessage = {
 }
 
 const FromServerMessage = {
+    question: 'QUESTION',
+    timeUp: 'TIME_UP',
 }
