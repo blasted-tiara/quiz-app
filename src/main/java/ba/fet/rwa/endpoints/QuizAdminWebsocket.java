@@ -60,6 +60,9 @@ public class QuizAdminWebsocket {
             case NEXT_QUESTION:
                 quizSession.startCurrentQuestion();
                 break;
+            case GET_RESULTS_AS_XLS:
+                quizSession.sendResultsAsXls();
+                break;
             default:
                 break;
         }
@@ -68,5 +71,6 @@ public class QuizAdminWebsocket {
     private enum MessageType {
         START_QUIZ,
         NEXT_QUESTION,
+        GET_RESULTS_AS_XLS,
     }
 }

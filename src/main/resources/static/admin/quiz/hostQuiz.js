@@ -68,6 +68,10 @@ function startWebsocketConnection(pin) {
                 setShowResultsButtonDisabled(false)
                 setNextQuestionBtnDisabled(false)
                 fillTableWithResults(currentResults, 'current-results-table-body');
+                break;
+            case fromHostMessages.finalResultsAsXls:
+                downloadExcelFile(message, 'results.xlsx');
+                break;
             default:
                 break;
         }
@@ -91,6 +95,30 @@ function fillTableWithResults(results, tableBodyId) {
         tableBody.innerHTML += row;
     }
 }
+
+function sentDownloadResultsRequest(e) {
+    e.preventDefault();
+    wsConnection.send(toHostMessages.getResultsAsXls);
+}
+
+function downloadExcelFile(base64Data, fileName) {
+    const byteCharacters = atob(base64Data);
+    const byteNumbers = new Array(byteCharacters.length);
+  
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+  
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+  
+    URL.revokeObjectURL(link.href);
+  }
 
 function createPlayerName(player) {
     const name = player.name;
@@ -152,6 +180,7 @@ const toHostMessages = {
     getCurrentQuestion: 'GET_CURRENT_QUESTION',
     startCurrentQuestion: "START_CURRENT_QUESTION",
     nextQuestion: 'NEXT_QUESTION',
+    getResultsAsXls: 'GET_RESULTS_AS_XLS',
 }
 
 const fromHostMessages = {
@@ -159,5 +188,6 @@ const fromHostMessages = {
     question: 'QUESTION',
     numberOfPlayers: 'NUMBER_OF_PLAYERS',
     timeUp: 'TIME_UP',
-    finalResults: 'FINAL_RESULTS'
+    finalResults: 'FINAL_RESULTS',
+    finalResultsAsXls: 'FINAL_RESULTS_AS_XLS',
 }

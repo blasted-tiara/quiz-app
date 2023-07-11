@@ -37,6 +37,10 @@ public class Player {
         }
     }
 
+    public String getFullName() {
+        return name + " " + surname;
+    }
+
     public Player() {
         answers = new HashMap<>();
     }

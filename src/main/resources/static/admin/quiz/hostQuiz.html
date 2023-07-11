@@ -109,6 +109,7 @@
                 </section>
                 <footer class="modal-footer">
                     <button id="close-edit-quiz-modal" class="close-button" onclick="closeModal('final-results-modal')">Close</button>
+                    <button id="download-results-btn">Download Results</button>
                 </footer>
             </div>
         </div>
@@ -118,6 +119,7 @@
             document.getElementById('start-quiz-btn').addEventListener('click', (event) => startQuiz(event));
             document.getElementById('show-results-btn').addEventListener('click', (event) => showResultsModal(event));
             document.getElementById('next-question-btn').addEventListener('click', (event) => nextQuestion(event));
+            document.getElementById('download-results-btn').addEventListener('click', (event) => sentDownloadResultsRequest(event));
             
             addCloseModalListeners();
         </script>

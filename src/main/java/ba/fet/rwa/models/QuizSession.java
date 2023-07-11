@@ -5,6 +5,7 @@ import ba.fet.rwa.services.QuizService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.websocket.Session;
+import java.io.IOException;
 import java.util.*;
 
 public class QuizSession {
@@ -176,6 +177,17 @@ public class QuizSession {
         return System.currentTimeMillis() > expirationTime;
     }
 
+    public void sendResultsAsXls() {
+        List<Player> topPlayers = getTopPlayers(players.size());
+        String xls = null;
+        try {
+            xls = ExcelGenerator.generateExcelFile(topPlayers);
+        } catch (IOException e) {
+            xls = "";
+        }
+        messageOwner(MessageType.FINAL_RESULTS_AS_XLS, xls);
+    }
+
     private static enum QuizSessionState {
         WAITING_FOR_PLAYERS,
         QUESTION_ACTIVE,
@@ -189,6 +201,7 @@ public class QuizSession {
         QUESTION,
         TIME_UP,
         FINAL_RESULTS,
+        FINAL_RESULTS_AS_XLS,
         QUIZ_STARTED
     }
 }
