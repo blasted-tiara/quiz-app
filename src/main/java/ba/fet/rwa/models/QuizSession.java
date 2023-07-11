@@ -1,5 +1,6 @@
 package ba.fet.rwa.models;
 
+import ba.fet.rwa.projections.QuestionProjection;
 import ba.fet.rwa.services.QuizService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,6 +35,7 @@ public class QuizSession {
 
     public void startQuiz() {
         currentQuestionIndex = 0;
+        messageOwner(MessageType.QUIZ_STARTED);
         startCurrentQuestion();
     }
 
@@ -44,6 +46,10 @@ public class QuizSession {
     public void startCurrentQuestion() {
         if (currentQuestionIndex == -1) {
             throw new RuntimeException("Quiz not started");
+        }
+
+        if (state.equals(QuizSessionState.FINISHED)) {
+            throw new RuntimeException("Quiz already finished");
         }
 
         currentQuestionStartTime = System.currentTimeMillis();
@@ -63,12 +69,13 @@ public class QuizSession {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                broadcastMessage(MessageType.SCORES ,topTenPlayersJson);
-                if (currentQuestionIndex < quiz.getQuestions().size() - 1) {
-                    incrementQuestionIndex();
-                } else {
+
+                if (currentQuestionIndex >= quiz.getQuestions().size() - 1) {
                     state = QuizSessionState.FINISHED;
-                    broadcastMessage(MessageType.QUIZ_FINISHED, topTenPlayersJson);
+                    broadcastMessage(MessageType.FINAL_RESULTS, topTenPlayersJson);
+                } else {
+                    incrementQuestionIndex();
+                    broadcastMessage(MessageType.TIME_UP, topTenPlayersJson);
                 }
             }
         }, (long) getCurrentQuestion().getTime() * 1000);
@@ -77,6 +84,15 @@ public class QuizSession {
     public void closeCurrentQuestion() {
         state = QuizSessionState.WAITING_FOR_NEXT_QUESTION;
     }
+
+    private void messageOwner(MessageType messageType) {
+        try {
+            ownerSession.getBasicRemote().sendText(messageType.toString());
+        } catch (Exception e) {
+            System.out.println("Error sending message to owner: " + e.getMessage());
+        }
+    }
+
 
     private void messageOwner(MessageType messageType, String message) {
         String fullMessage = messageType.toString().concat(":").concat(message);
@@ -87,8 +103,23 @@ public class QuizSession {
         }
     }
 
+    private void messagePlayers(MessageType messageType, String message) {
+        String fullMessage = messageType.toString().concat(":").concat(message);
+        for (Player player : players) {
+            try {
+                player.sendMessage(fullMessage);
+            } catch (Exception e) {
+                System.out.println("Error sending message to player: " + e.getMessage());
+            }
+        }
+    }
+
     public void calculateScoresForCurrentQuestion() {
         Question currentQuestion = getCurrentQuestion();
+        if (currentQuestion.getCorrectAnswer() == null) {
+            return;
+        }
+
         for (Player player : players) {
             Long playerAnswer = player.getAnswerToQuestion(currentQuestion.getId());
             Long correctAnswer = currentQuestion.getCorrectAnswer().getId();
@@ -100,8 +131,14 @@ public class QuizSession {
 
     private List<Player> getTopPlayers(int n) {
         List<Player> topPlayers = new ArrayList<>(players);
-        topPlayers.sort(Comparator.comparing(Player::getScore).reversed());
-        return topPlayers.subList(0, n);
+        if (topPlayers.size() > 1) {
+            topPlayers.sort(Comparator.comparing(Player::getScore).reversed());
+        }
+        if (topPlayers.size() >= n) {
+            return topPlayers.subList(0, n);
+        }
+
+        return topPlayers;
     }
 
     private Question getCurrentQuestion() {
@@ -111,7 +148,7 @@ public class QuizSession {
     public void broadcastCurrentQuestion() {
         String question = null;
         try {
-            question = objectMapper.writeValueAsString(quiz.getQuestions().get(currentQuestionIndex));
+            question = objectMapper.writeValueAsString(QuestionProjection.toProjection(quiz.getQuestions().get(currentQuestionIndex)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -119,9 +156,8 @@ public class QuizSession {
     }
 
     private void broadcastMessage(MessageType messageType, String message) {
-        for (Player player : players) {
-            player.sendMessage(messageType.toString().concat(":").concat(message));
-        }
+        messageOwner(messageType, message);
+        messagePlayers(messageType, message);
     }
 
     public void addPlayer(Player player) {
@@ -151,7 +187,8 @@ public class QuizSession {
     private static enum MessageType {
         NUMBER_OF_PLAYERS,
         QUESTION,
-        SCORES,
-        QUIZ_FINISHED
+        TIME_UP,
+        FINAL_RESULTS,
+        QUIZ_STARTED
     }
 }

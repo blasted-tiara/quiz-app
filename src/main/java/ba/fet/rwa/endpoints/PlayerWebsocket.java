@@ -30,12 +30,22 @@ public class PlayerWebsocket {
 
     @OnMessage
     public void onMessage(Session session, String message) throws IOException {
-        if (message.startsWith("player-data:")) {
-            String[] nameSurname = message.split(":");
-            this.player.setName(nameSurname[1]);
-            this.player.setSurname(nameSurname[2]);
-            return;
+        String[] parts = message.split(":", 2);
+        String messageType = parts[0];
+        String messageContent = parts[1];
+        switch (MessageType.valueOf(messageType)) {
+            case PLAYER_DATA:
+                setPlayerData(messageContent);
+                break;
+            default:
+                break;
         }
+    }
+
+    private void setPlayerData(String messageContent) {
+        String[] nameSurname = messageContent.split(":", 2);
+        this.player.setName(nameSurname[0]);
+        this.player.setSurname(nameSurname[1]);
     }
 
     @OnClose
@@ -46,5 +56,9 @@ public class PlayerWebsocket {
     @OnError
     public void onError(Session session, Throwable throwable) {
         System.out.println("QuizWebsocket.onError");
+    }
+
+    private enum MessageType {
+        PLAYER_DATA,
     }
 }

@@ -4,6 +4,7 @@ import ba.fet.rwa.models.PinValidationConfigurator;
 import ba.fet.rwa.models.QuizSession;
 import ba.fet.rwa.services.PinService;
 
+import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -41,12 +42,31 @@ public class QuizAdminWebsocket {
         }
     }
 
+    @OnMessage
     public void onMessage(Session session, String message) {
-        if (message.startsWith("start-quiz")) {
-            quizSession.startQuiz();
+        String[] parts = message.split(":", 2);
+        String messageType = parts[0];
+        String messageContent;
+        try {
+            messageContent = parts[1];
+        } catch (Exception e) {
+            messageContent = "";
         }
-        if (message.startsWith("start-current-question")) {
-            quizSession.startCurrentQuestion();
+
+        switch (MessageType.valueOf(messageType)) {
+            case START_QUIZ:
+                quizSession.startQuiz();
+                break;
+            case NEXT_QUESTION:
+                quizSession.startCurrentQuestion();
+                break;
+            default:
+                break;
         }
+    }
+
+    private enum MessageType {
+        START_QUIZ,
+        NEXT_QUESTION,
     }
 }
