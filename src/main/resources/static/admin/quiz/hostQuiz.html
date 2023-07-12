@@ -32,6 +32,15 @@
         <h2 class="regular-title">Host Quiz</h2>
     </header>
     <div id="get-pin-section" class="quiz-section">
+        <div class="quiz-container">
+            <div class="quiz-image-container">
+                <img id="quiz-image" class="quiz-image" alt="Quiz Image">
+            </div>
+            <div class="quiz-content">
+                <h1 id="quiz-title" class="quiz-title"></h1>
+                <p id="quiz-description" class="quiz-description"></p>
+            </div>
+        </div>
         <button id="get-quiz-pin-btn">Get Quiz Pin</button>
     </div>
     <div id="show-pin-section" class="quiz-section hidden">
@@ -39,6 +48,9 @@
             <h2 class="pin-title">Quiz PIN:</h2>
             <div class="pin-frame">
                 <div id="pin" class="pin-number"></div>
+                <button id="copy-button" class="copy-button">
+                    <i class="fas fa-copy"></i>
+                </button>
             </div>
             <p class="pin-description">Share the PIN with the players</p>
             <section class="connected-players-section">
@@ -75,19 +87,20 @@
                     Top 10 Players
                 </header>
                 <section id="top-10-players-modal-content" class="modal-content">
-                  <table class="player-table">
-                    <thead>
-                      <tr>
-                        <th>Player</th>
-                        <th>Score</th>
-                      </tr>
-                    </thead>
-                    <tbody id="current-results-table-body">
-                    </tbody>
-                  </table>
+                    <table class="player-table">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="current-results-table-body">
+                        </tbody>
+                    </table>
                 </section>
                 <footer class="modal-footer">
-                    <button id="close-edit-quiz-modal" class="close-button" onclick="closeModal('top-10-players-modal')">Close</button>
+                    <button id="close-edit-quiz-modal" class="close-button"
+                        onclick="closeModal('top-10-players-modal')">Close</button>
                 </footer>
             </div>
         </div>
@@ -97,19 +110,20 @@
                     Quiz Results
                 </header>
                 <section id="final-results-modal-content" class="modal-content">
-                  <table class="player-table">
-                    <thead>
-                      <tr>
-                        <th>Player</th>
-                        <th>Score</th>
-                      </tr>
-                    </thead>
-                    <tbody id="final-results-table-body">
-                    </tbody>
-                  </table>
+                    <table class="player-table">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="final-results-table-body">
+                        </tbody>
+                    </table>
                 </section>
                 <footer class="modal-footer">
-                    <button id="close-edit-quiz-modal" class="close-button" onclick="closeModal('final-results-modal')">Close</button>
+                    <button id="close-edit-quiz-modal" class="close-button"
+                        onclick="closeModal('final-results-modal')">Close</button>
                     <button id="download-results-btn">Download Results</button>
                 </footer>
             </div>
@@ -121,8 +135,13 @@
             document.getElementById('show-results-btn').addEventListener('click', (event) => showResultsModal(event));
             document.getElementById('next-question-btn').addEventListener('click', (event) => nextQuestion(event));
             document.getElementById('download-results-btn').addEventListener('click', (event) => sentDownloadResultsRequest(event));
-            
+
             addCloseModalListeners();
+
+            initQuizData();
+
+            const copyButton = document.getElementById('copy-button');
+            copyButton.addEventListener('click', (e) => copyToClipboard(e));
         </script>
 </body>
 

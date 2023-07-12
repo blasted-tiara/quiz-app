@@ -17,6 +17,46 @@ function getQuizPin(e) {
 
 }
 
+function copyToClipboard(e) {
+    e.preventDefault();
+    // Get the pin number element
+    const pinNumber = document.getElementById('pin');
+
+    // Create a temporary input element
+    const tempInput = document.createElement('input');
+    tempInput.value = pinNumber.innerText;
+    document.body.appendChild(tempInput);
+
+    // Copy the pin number value to clipboard
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+
+    // Alert the user that the pin has been copied
+    alert('Pin copied to clipboard!');
+}
+
+function initQuizData() {
+    // fetch quiz
+    const urlParams = new URLSearchParams(window.location.search);
+    const quizId = urlParams.get('quizId');
+    fetch(`/api/quiz/${quizId}`, { "method": "GET" })
+        .then(response => {
+            const text = response.text();
+            return text;
+        })
+        .then(quiz => {
+            const parsedQuiz = JSON.parse(quiz);
+            document.getElementById('quiz-title').innerText = parsedQuiz.title;
+            document.getElementById('quiz-description').innerText = parsedQuiz.description;
+            document.getElementById('quiz-image').src = constructQuizThumbnailURL(parsedQuiz);
+        });
+}
+
+function constructQuizThumbnailURL(quiz) {
+    return `http://localhost:8080/api/images/${quiz.thumbnail || "default.jpg"}`;
+}
+
 function startWebsocketConnection(pin) {
     wsConnection = new WebSocket(`ws://localhost:8080/admin/ws/quiz?pin=${pin}`);
 
@@ -104,21 +144,21 @@ function sentDownloadResultsRequest(e) {
 function downloadExcelFile(base64Data, fileName) {
     const byteCharacters = atob(base64Data);
     const byteNumbers = new Array(byteCharacters.length);
-  
+
     for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
-  
+
     const byteArray = new Uint8Array(byteNumbers);
     const blob = new Blob([byteArray], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-  
+
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = fileName;
     link.click();
-  
+
     URL.revokeObjectURL(link.href);
-  }
+}
 
 function createPlayerName(player) {
     const name = player.name;

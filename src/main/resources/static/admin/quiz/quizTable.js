@@ -34,6 +34,12 @@ function createQuizzesTableRow(quiz) {
                 document.getElementById('edit-quiz-modal-content').appendChild(quiz.generateHTML());
                 quiz.attachListeners();
 
+                $("#image-picker-edit").change(function (event) {
+                    console.log("Attached successfully");
+                    readURL(this, "#image-preview-edit");
+                });
+        
+
                 const editQuizForm = document.getElementById('edit-quiz-form');
                 editQuizForm.addEventListener('submit', (e) => {
                     updateEntity(e, getFormDataEdit, quizEndpoint, "edit-quiz-modal", "edit-quiz-form");

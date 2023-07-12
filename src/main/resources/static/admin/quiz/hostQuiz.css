@@ -12,24 +12,39 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.pin-frame {
-    display: inline-block;
-    background-color: #007bff;
-    border-radius: 10px;
-    padding: 20px;
-    color: #ffffff;
-}
-
 .pin-title {
     font-size: 24px;
     font-weight: bold;
     margin: 15px 0 25px 0;
 }
 
-.pin-number {
+.pin-frame {
+    display: inline-flex;
+    align-items: center;
+    background-color: #007bff;
+    border-radius: 10px;
+    padding: 20px;
+    color: #ffffff;
+  }
+  
+  .pin-number {
     font-size: 48px;
     margin: 10px 0;
-}
+  }
+  
+  .copy-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 24px;
+    transition: transform 0.2s ease-in-out;
+    margin-right: -15px;
+  }
+  
+  .copy-button:hover {
+    transform: scale(1.1);
+  }
 
 .pin-description {
     font-size: 18px;
@@ -120,3 +135,34 @@
 .hidden {
     display: none;
 }
+
+.quiz-section {
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.quiz-image-container {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+  
+  .quiz-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .quiz-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .quiz-description {
+    font-size: 20px;
+    color: #888888;
+  }

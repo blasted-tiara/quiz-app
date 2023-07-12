@@ -43,7 +43,7 @@
             <tr>
                 <th class="thumbnail-column"></th>
                 <th>Title</th>
-                <th>Roles</th>
+                <th>Description</th>
                 <th>Actions</th>
             </tr>
         </table>
@@ -173,11 +173,6 @@
             readURL(this, "#image-preview-create");
         });
 
-        $("#image-picker-edit").change(function (event) {
-            console.log("Attached successfully");
-            readURL(this, "#image-preview-edit");
-        });
-        
         function startQuiz() {
             const quizId = document.getElementById("play-quiz-modal").dataset.entityId;
             closeModal("play-quiz-modal");

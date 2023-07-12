@@ -1,4 +1,5 @@
 let wsConnection = null;
+let answeredCurrentQuestion = false;
 
 function submitPin(e) {
     e.preventDefault();
@@ -8,7 +9,7 @@ function submitPin(e) {
 
 function joinQuiz(pin) {
     wsConnection = new WebSocket(`ws://localhost:8080/ws/quiz?pin=${pin}`);
-    
+
     wsConnection.onopen = function () {
         showSection("info-form-section");
     }
@@ -17,7 +18,7 @@ function joinQuiz(pin) {
         const data = decodeMessage(e.data);
         const messageType = data[0];
         const message = data[1];
-        
+
         switch (messageType) {
             case FromServerMessage.question:
                 const parsedMessage = JSON.parse(message);
@@ -35,19 +36,46 @@ function joinQuiz(pin) {
                         </li>
                     `)
                 });
+                answeredCurrentQuestion = false;
 
                 document.getElementById('answers').innerHTML = answers.join('');
-                
+
                 showSection("question-section");
 
                 break;
             case FromServerMessage.timeUp:
+            case FromServerMessage.finalResults:
+                const parsedResults = JSON.parse(message);
+                fillTableWithResults(parsedResults, 'results-table-body');
+                showSection("results-section");
                 break;
         }
     }
 
     wsConnection.onclose = function () {
         console.log("WebSocket is closed now.");
+    }
+}
+
+function createPlayerName(player) {
+    const name = player.name;
+    const surname = player.surname;
+
+    return `${name} ${surname}`;
+}
+
+function fillTableWithResults(results, tableBodyId) {
+    let tableBody = document.getElementById(tableBodyId);
+    tableBody.innerHTML = '';
+
+    for (let result of results) {
+        let row = `
+          <tr>
+            <td>${createPlayerName(result)}</td>
+            <td>${result.score}</td>
+          </tr>
+        `;
+        tableBody.innerHTML += row;
     }
 }
 
@@ -82,23 +110,28 @@ function submitUserInfo(e) {
 function submitAnswer(e) {
     e.preventDefault();
 
-    const selectedAnswer = document.querySelector(".player-answer-item.selected");
-    if (selectedAnswer) {
-        const answerId = selectedAnswer.dataset.id;
-        wsConnection.send(ToServerMessage.answer + ":" + answerId);
+    if (!answeredCurrentQuestion) {
+        const selectedAnswer = document.querySelector(".player-answer-item.selected");
+        if (selectedAnswer) {
+            const answerId = selectedAnswer.dataset.id;
+            wsConnection.send(ToServerMessage.answer + ":" + answerId);
+        }
+        answeredCurrentQuestion = true;
     }
 }
 
 function selectAnswer(answer) {
-    // Remove "selected" class from all answer elements
-    const answers = document.getElementsByClassName("player-answer-item");
-    for (let i = 0; i < answers.length; i++) {
-      answers[i].classList.remove("selected");
+    if (!answeredCurrentQuestion) {
+        // Remove "selected" class from all answer elements
+        const answers = document.getElementsByClassName("player-answer-item");
+        for (let i = 0; i < answers.length; i++) {
+            answers[i].classList.remove("selected");
+        }
+
+        // Add "selected" class to the clicked answer element
+        answer.classList.add("selected");
     }
-  
-    // Add "selected" class to the clicked answer element
-    answer.classList.add("selected");
-  }
+}
 
 const ToServerMessage = {
     playerData: 'PLAYER_DATA',
@@ -108,4 +141,5 @@ const ToServerMessage = {
 const FromServerMessage = {
     question: 'QUESTION',
     timeUp: 'TIME_UP',
+    finalResults: 'FINAL_RESULTS',
 }
