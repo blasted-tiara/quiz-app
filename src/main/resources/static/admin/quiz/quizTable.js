@@ -31,7 +31,9 @@ function createQuizzesTableRow(quiz) {
             .then(response => response.json())
             .then(data => {
                 let quiz = new Quiz(data);
-                document.getElementById('edit-quiz-modal-content').appendChild(quiz.generateHTML());
+                let modalContent = document.getElementById('edit-quiz-modal-content');
+                modalContent.innerHTML = '';
+                modalContent.appendChild(quiz.generateHTML());
                 quiz.attachListeners();
 
                 $("#image-picker-edit").change(function (event) {

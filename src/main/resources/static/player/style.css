@@ -37,7 +37,7 @@
   
   .info-section {
     display: block;
-    margin: 100px auto;
+    margin: 30px auto;
     width: 350px;
 }
 
@@ -112,4 +112,39 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.quiz-section {
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+.quiz-image-container {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.quiz-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.quiz-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.quiz-description {
+  font-size: 20px;
+  color: #888888;
+}
+
+.quiz-content {
+  text-align: center;
 }

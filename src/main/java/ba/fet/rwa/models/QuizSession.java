@@ -2,6 +2,7 @@ package ba.fet.rwa.models;
 
 import ba.fet.rwa.projections.PlayerQuestionProjection;
 import ba.fet.rwa.projections.QuestionProjection;
+import ba.fet.rwa.projections.QuizProjection;
 import ba.fet.rwa.services.QuizService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -175,13 +176,24 @@ public class QuizSession {
     public void addPlayer(Player player) {
         if (state == QuizSessionState.WAITING_FOR_PLAYERS) {
             players.add(player);
-            messageOwner(MessageType.NUMBER_OF_PLAYERS, String.valueOf(players.size()));
+            broadcastMessage(MessageType.NUMBER_OF_PLAYERS, String.valueOf(players.size()));
+
+            QuizProjection quizProjection = QuizProjection.toProjection(quiz);
+            quizProjection.setQuestions(null);
+            String quizJson = null;
+            try {
+                quizJson = objectMapper.writeValueAsString(quizProjection);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            player.sendMessage(MessageType.QUIZ_DETAILS + ":" + quizJson);
         }
     }
 
     public void removePlayer(Player player) {
         this.players.remove(player);
-        messageOwner(MessageType.NUMBER_OF_PLAYERS, String.valueOf(players.size()));
+        broadcastMessage(MessageType.NUMBER_OF_PLAYERS, String.valueOf(players.size()));
     }
 
     public boolean isExpired() {
@@ -213,6 +225,7 @@ public class QuizSession {
         TIME_UP,
         FINAL_RESULTS,
         FINAL_RESULTS_AS_XLS,
-        QUIZ_STARTED
+        QUIZ_STARTED,
+        QUIZ_DETAILS
     }
 }

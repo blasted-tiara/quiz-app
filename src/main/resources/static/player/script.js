@@ -39,6 +39,9 @@ function joinQuiz(pin) {
                 answeredCurrentQuestion = false;
 
                 document.getElementById('answers').innerHTML = answers.join('');
+                timeLimit = question.time;
+                initTimer();
+                startTimer();
 
                 showSection("question-section");
 
@@ -49,12 +52,27 @@ function joinQuiz(pin) {
                 fillTableWithResults(parsedResults, 'results-table-body');
                 showSection("results-section");
                 break;
+            case FromServerMessage.quizDetails:
+                const quizDetails = JSON.parse(message);
+                initQuizData(quizDetails);
+
+                break;
         }
     }
 
     wsConnection.onclose = function () {
         console.log("WebSocket is closed now.");
     }
+}
+
+function initQuizData(quiz) {
+    document.getElementById('quiz-title').innerText = quiz.title;
+    document.getElementById('quiz-description').innerText = quiz.description;
+    document.getElementById('quiz-image').src = constructQuizThumbnailURL(quiz);
+}
+ 
+function constructQuizThumbnailURL(quiz) {
+    return `http://localhost:8080/api/images/${quiz.thumbnail || "default.jpg"}`;
 }
 
 function createPlayerName(player) {
@@ -117,6 +135,7 @@ function submitAnswer(e) {
             wsConnection.send(ToServerMessage.answer + ":" + answerId);
         }
         answeredCurrentQuestion = true;
+        showSection("answer-sent");
     }
 }
 
@@ -142,4 +161,5 @@ const FromServerMessage = {
     question: 'QUESTION',
     timeUp: 'TIME_UP',
     finalResults: 'FINAL_RESULTS',
+    quizDetails: 'QUIZ_DETAILS',
 }
