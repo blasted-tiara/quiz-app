@@ -1,66 +1,58 @@
-# Aplikacija za Igranje Kviza
+# Quiz Playing Application
 
-Aplikacija za Igranje Kviza je web-platforma koja omogućava korisnicima da kreiraju i igraju kvizove u realnom vremenu. Pruža korisnički interfejs za kreiranje kvizova kreatorima kvizova i učešće igračima u kvizovima.
+The Quiz Playing Application is a web platform that allows users to create and play quizzes in real-time. It provides a user interface for quiz creators to design quizzes and for players to participate in quizzes.
 
-## Sadržaj
+## Contents
 
-- [Funkcionalnosti](#funkcionalnosti)
-- [Korištene Tehnologije](#korištene-tehnologije)
-- [Instalacija](#instalacija)
-- [Korištenje](#korištenje)
-- [Nedovršene Funkcionalnosti](#nedovršene-funkcionalnosti)
-- [Licenca](#licenca)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
 
-## Funkcionalnosti
+## Features
 
-- Kviz kreatori mogu dizajnirati kvizove i upravljati pitanjima i odgovorima.
-- Igrači mogu se pridružiti aktivnim kvizovima koristeći jedinstveni PIN.
-- Komunikacija u realnom vremenu između kviz admina i igrača putem websocket tehnologije.
-- Tajmer za svako pitanje s vizuelnim odbrojavanjem.
-- Praćenje rezultata i prikaz rang liste.
-- Čuvanje rezultata kviza kao XLS datoteke.
+- Quiz creators can design quizzes and manage questions and answers.
+- Players can join active quizzes using a unique PIN.
+- Real-time communication between quiz admins and players using websocket technology.
+- Timer for each question with visual countdown.
+- Tracking scores and displaying leaderboards.
+- Saving quiz results as XLS files.
 
-## Korištene Tehnologije
+## Technologies Used
 
 - Backend: Java, Jetty Server, JAX-RS, JPA (Java Persistence API)
 - Frontend: HTML, CSS, JavaScript
-- Websockets za komunikaciju u realnom vremenu
-- Baza podataka: MySQL
-- Build i Dependency Menadžment: Maven
-- Ostale biblioteke i frameworkovi: Hibernate, Jersey, jQuery, Bootstrap
+- Websockets for real-time communication
+- Database: MySQL
+- Build and Dependency Management: Maven
+- Other libraries and frameworks: Hibernate, Jersey, jQuery, Bootstrap
 
-## Instalacija
+## Installation
 
-1. Klonirajte repozitorij: `git clone https://github.com/blasted-tiara/quiz-app`
-2. Postavite bazu podataka i konfigurišite detalje konekcije u `src/main/resources/hibernate.cfg.xml`.
-3. Izgradite projekat koristeći Maven: `mvn clean install`
-4. Popunite bazu podataka pokrećući `main` funkciju klase `src/main/java/ba/fet/rwa/scripts/UserDataLoader.java`.
-4. Pokrenite Jetty server: `mvn jetty:run`
-5. Pristupite aplikaciji u vašem web pregledaču na adresi `http://localhost:8080`. (Admin stranica: `http://localhost:8080/admin`, Igrač stranica: `http://localhost:8080/player/index.html`)
+1. Clone the repository: `git clone https://github.com/blasted-tiara/quiz-app`
+2. Set up the database and configure the connection details in `src/main/resources/hibernate.cfg.xml`.
+3. Build the project using Maven: `mvn clean install`
+4. Populate the database by running the `main` function of the class `src/main/java/ba/fet/rwa/scripts/UserDataLoader.java`.
+4. Start the Jetty server: `mvn jetty:run`
+5. Access the application in your web browser at `http://localhost:8080`. (Admin page: `http://localhost:8080/admin`, Player page: `http://localhost:8080/player/index.html`)
 
-## Korištenje
+## Usage
 
-1. Kreirajte Kviz:
-    - Prijavite se kao kviz admin.
-    - Dizajnirajte i konfigurišite kviz dodavanjem pitanja i odgovora.
-    - Generišite jedinstveni PIN koji ćete podijeliti sa igračima.
+1. Create a Quiz:
+    - Log in as a quiz admin.
+    - Design and configure the quiz by adding questions and answers.
+    - Generate a unique PIN to share with players.
 
-2. Igrajte Kviz:
-    - Igrači pristupaju stranici kviza i unose dobiveni PIN.
-    - Sačekajte da kviz admin pokrene kviz.
-    - Odgovorite na pitanja unutar zadatog vremenskog limita.
-    - Pogledajte rezultate i rang listu nakon svakog pitanja.
-    - Konačni rezultati se prikazuju na kraju kviza.
+2. Play the Quiz:
+    - Players access the quiz page and enter the provided PIN.
+    - Wait for the quiz admin to start the quiz.
+    - Answer the questions within the given time limit.
+    - View the scores and leaderboard after each question.
+    - Final results are displayed at the end of the quiz.
 
-## Nedovršene Funkcionalnosti
+## Known Bugs
 
-Sljedeće funkcionalnosti nisu implementirane u trenutnoj verziji aplikacije:
-
-- Mogućnost mijenjanja redoslijeda pitanja
-- Postojanje različitih rola za admina i moderatora
-
-## Bugovi
-
-Sljedeći bugovi su prisutni u trenutnoj verziji aplikacije:
-   - Username administrator/moderator računa nije jedinstven
-   - Prilikom brisanja kviza, ili prilikom promjene slike, uploadana slika se ne brise sa servera
+The following bugs are present in the current version of the application:
+   - Username of the administrator/moderator account is not unique
+   - When deleting a quiz or changing an image, the uploaded image is not deleted from the server.
